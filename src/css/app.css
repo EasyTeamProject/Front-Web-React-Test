@@ -1,0 +1,6 @@
+.app{
+    display: flex;
+    float: right;
+    flex-direction: column;
+    flex-flow: column
+}

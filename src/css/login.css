@@ -1,0 +1,11 @@
+.loginFields{
+    margin: auto;
+    float: right;
+    display: flex;
+    flex-direction: row;
+}
+
+.loginButton{
+    height: 100%;
+    margin: auto;
+}

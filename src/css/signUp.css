@@ -1,0 +1,11 @@
+.signUpFields{
+    margin: auto;
+    float: right;
+    display: flex;
+    flex-direction: column;
+}
+
+.signUpButton{
+    height: 100%;
+    margin: auto;
+}
