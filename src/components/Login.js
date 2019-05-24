@@ -28,15 +28,13 @@ export class Login extends Component {
         const { usernameSignIn, passwordSignIn } = this.state;
         const values = { usernameSignIn, passwordSignIn };
 
-        
-
         return (
             <MuiThemeProvider>
                 <React.Fragment>
                     <div className="loginFields">
                         <TextField
                             hintText="Enter your User Name"
-                            floatingLabelText="User Name"
+                            floatingLabelText="Username"
                             onChange={this.handleChange('usernameSignIn')}
                             defaultValue={values.usernameSignIn}
                         />

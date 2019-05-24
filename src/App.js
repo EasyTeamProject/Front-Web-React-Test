@@ -8,6 +8,7 @@ class App extends Component {
     return (
       <div className="app">
         <div className="login">
+          <img className="logo" src={require('./img/logo.png')} alt="MakeEvent logo"/>
           <Login/>
         </div>
         <div className="signUp">

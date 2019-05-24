@@ -1,6 +1,10 @@
 .app{
     display: flex;
-    float: right;
     flex-direction: column;
-    flex-flow: column
+    flex-flow: column;
+    width: 100%;
+}
+
+.login img{
+    margin-left: 10vw;
 }

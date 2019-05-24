@@ -76,6 +76,7 @@ export class SignUp extends Component {
                             label="Sign Up"
                             primary={true}
                             onClick={this.signUpButtonHandler}
+                            fullWidth={true}
                         />
                     </div>
                 </React.Fragment>
