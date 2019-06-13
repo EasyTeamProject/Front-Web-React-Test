@@ -3,11 +3,13 @@ import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import {Redirect} from 'react-router-dom';
 
 export class Login extends Component {
     state = {
         usernameSignIn : '',
         passwordSignIn : '',
+        redirect: false
     }
 
     
@@ -16,6 +18,7 @@ export class Login extends Component {
     signInButtonHandler = () => {
         var infos = JSON.stringify(this.state);
         console.log(infos);
+        this.setState({redirect: true})
     }
 
     //Handle fields change
@@ -27,6 +30,10 @@ export class Login extends Component {
         // const { state } = this.state;
         const { usernameSignIn, passwordSignIn } = this.state;
         const values = { usernameSignIn, passwordSignIn };
+
+        if(this.state.redirect){
+            return <Redirect to="/sign-up"/>;
+        }
 
         return (
             <MuiThemeProvider>
@@ -47,6 +54,7 @@ export class Login extends Component {
                             defaultValue={values.passwordSignIn}
                         />
                         <br/>
+                        
                         <RaisedButton
                             className="loginButton"
                             label="Sign In"
