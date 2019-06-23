@@ -1,22 +1,39 @@
 import React, { Component } from 'react';
-import Drawer from '@material-ui/core/Drawer';
+import AppDrawer from '../components/AppDrawer'
+import EventCard from '../components/EventCard';
+
+
+const styles = {
+    testCard:{
+        marginLeft: '240px'
+    }
+}
 
 class HomePage extends Component{
     constructor(props){
-        super(props)
+        super(props);
+    }
+
+    getEventData(){
+        var data = require('../data/user.json');
+        return data;
     }
 
     render(){
+        var json = this.getEventData();
+        var arr = [];
+        Object.keys(json).forEach(function(key) {
+            arr.push(json[key]);
+        });
+        console.log(arr);
+
         return(
-            <Drawer
-                className='drawer'
-                variant='permanent'
-                anchor='left'
-            >
-                <div className = 'toolbar'>
-                    
-                </div>
-            </Drawer>
+            <div>
+                <AppDrawer/>
+                <ul style={styles.testCard}>
+        {arr.map(item => <EventCard eventId={item.id} eventTitle={item.title} eventDate={item.date} eventPlace={item.place} eventSubject={item.subject}/>)}
+                </ul>
+            </div>
         );
     }
 }
