@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import AppDrawer from '../components/AppDrawer'
+import { Fab } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add'
+import AppDrawer from '../components/AppDrawer';
 import EventCard from '../components/EventCard';
+
 
 
 const styles = {
@@ -30,8 +33,12 @@ class HomePage extends Component{
         return(
             <div>
                 <AppDrawer/>
+                
                 <ul style={styles.testCard}>
-        {arr.map(item => <EventCard eventId={item.id} eventTitle={item.title} eventDate={item.date} eventPlace={item.place} eventSubject={item.subject}/>)}
+                    <Fab color="primary" aria-label="Add" style={styles.fab}>
+                        <AddIcon />
+                    </Fab> New Event
+                    {arr.map(item => <EventCard eventId={item.id} eventTitle={item.title} eventDate={item.date} eventPlace={item.place} eventSubject={item.subject}/>)}
                 </ul>
             </div>
         );
