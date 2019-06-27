@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
 import EventDetailForm from '../components/EventCreationTunnel/EventDetailForm';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography'
+
+
+const styles = {
+    container:{
+        display: 'flex',
+        flexDirection: 'column',
+    }
+}
 
 export class EventCreationTunnel extends Component {
     state = {
@@ -30,7 +41,7 @@ export class EventCreationTunnel extends Component {
     }
 
     //Handle fields change
-    handleChange(input, e){
+    handleChange = input => e => {
         this.setState({[input]: e.target.value});
     }
 
@@ -42,11 +53,20 @@ export class EventCreationTunnel extends Component {
         switch(step){
             case 1:
                 return(
-                    <EventDetailForm
-                        nextStep={this.nextStep}
-                        handleChange={this.handleChange}
-                        values={values}
-                    />
+                    <React.Fragment style={styles.container}>
+                        <AppBar posotion="static" color="default">
+                            <Toolbar>
+                                <Typography variant="h6" color="inherit">
+                                    Event details
+                                </Typography>
+                            </Toolbar>
+                        </AppBar>
+                        <EventDetailForm
+                            nextStep={this.nextStep}
+                            handleChange={this.handleChange}
+                            values={values}
+                        />
+                    </React.Fragment>  
                 )
             case 2:
                 return <h1>LocationForm</h1>
