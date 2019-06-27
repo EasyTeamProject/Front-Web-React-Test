@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { Button, Card, CardActionArea, CardContent, Typography, CardActions } from '@material-ui/core';
 
 const styles = {
+    container:{
+        float: 'left',
+        width: '100%',
+        textAlign: 'left',
+        position: 'relative',
+    },
     testButton:{
         marginLeft: '400px'
     },
     card: {
         margin: 10,
-        maxWidth: '90%'
     },
     media:{
         height: 140
@@ -28,26 +33,16 @@ class EventCard extends Component{
 
     render(){
         return(
-            <div>
+            <div style={styles.container}>
                 <Card style={styles.card}>
-                    <CardActionArea>
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                {this.props.eventTitle}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                {this.props.eventSubject}
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                    <CardActions>
-                        <Button size="small" color="primary">
-                        Share
-                        </Button>
-                        <Button size="small" color="primary">
-                        Learn More
-                        </Button>
-                    </CardActions>
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            {this.props.eventTitle}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            {this.props.eventSubject}
+                        </Typography>
+                    </CardContent>
                 </Card>                
             </div>
         )

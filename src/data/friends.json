@@ -1,0 +1,20 @@
+{
+    "0":{
+        "id": 0,
+        "name": "Alex",
+        "lastMsgTime": "08:12",
+        "lastMessage": "Salut ça va ?"
+    },
+    "1":{
+        "id": 0,
+        "name": "Yanis",
+        "lastMsgTime": "18:05",
+        "lastMessage": "Oui"
+    },
+    "2":{
+        "id": 0,
+        "name": "Florian",
+        "lastMsgTime": "10:15",
+        "lastMessage": "Et toi ?"
+    }
+}
