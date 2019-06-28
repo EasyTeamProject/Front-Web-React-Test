@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import { CardMedia } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,6 +20,11 @@ const useStyles = makeStyles(theme => ({
   inline: {
     display: 'inline',
   },
+  profilePic:{
+    height: 62,
+    width: 62,
+    borderRadius: 31
+  }
 }));
 
 export default function FriendList() {
@@ -37,9 +43,10 @@ export default function FriendList() {
         <List className={classes.root}>
                 {getFriendsData().map(item=>
                     <ListItem alignItems="flex-start">
-                        {/* <ListItemAvatar>
-                            <Avatar alt={item.name} src={require(item.profilePic)} />
-                        </ListItemAvatar> */}
+                        <ListItemAvatar>
+                            {/* <CardMedia image='../img/avatar/0.png' className={classes.profilePic}/> */}
+                            <Avatar alt={item.name} src={require('../img/avatar/0.png')} />
+                        </ListItemAvatar>
                         <ListItemText
                             primary={item.name}
                             secondary={
