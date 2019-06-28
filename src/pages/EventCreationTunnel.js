@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import EventDetailForm from '../components/EventCreationTunnel/EventDetailForm';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography'
+import CustomAppBar from '../components/CustomAppBar';
 
 
 const styles = {
@@ -54,13 +52,7 @@ export class EventCreationTunnel extends Component {
             case 1:
                 return(
                     <React.Fragment style={styles.container}>
-                        <AppBar posotion="static" color="default">
-                            <Toolbar>
-                                <Typography variant="h6" color="inherit">
-                                    Event details
-                                </Typography>
-                            </Toolbar>
-                        </AppBar>
+                        <CustomAppBar pageTitle="Create your Event" />
                         <EventDetailForm
                             nextStep={this.nextStep}
                             handleChange={this.handleChange}

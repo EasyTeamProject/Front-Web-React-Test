@@ -5,8 +5,7 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import AppDrawer from '../components/AppDrawer';
 import EventCard from '../components/EventCard';
 import FriendList from '../components/FriendList';
-import Drawer from '@material-ui/core/Drawer';
-import { Divider, List, ListItem, ListItemText } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 
 
@@ -39,13 +38,6 @@ class HomePage extends Component{
         return data;
     }
 
-    
-
-
-    showDrawer(item){
-        this.focusedCard = item;
-        console.log(this.focusedCard);
-    }
 
     render(){
         var json = this.getEventData();
@@ -55,12 +47,13 @@ class HomePage extends Component{
         });
         return(
             <div style={styles.container}>
-                <AppDrawer/>
-                
+                <AppDrawer/>                
                 <ul style={styles.testCard}>
-                    <Fab color="primary" aria-label="Add" style={styles.fab}>
-                        <AddIcon />
-                    </Fab>
+                    <Link to="/createEvent">
+                        <Fab color="primary" aria-label="Add" style={styles.fab} onClick="">
+                            <AddIcon />
+                        </Fab>
+                    </Link>
                     {arrEvents.map(item => 
                         <ButtonBase style={styles.buttonBase} className={"card"+item.id} onClick={e => this.showDrawer(item)}>
                             <EventCard eventId={item.id} eventTitle={item.title} eventDate={item.date} eventPlace={item.place} eventSubject={item.subject}/>

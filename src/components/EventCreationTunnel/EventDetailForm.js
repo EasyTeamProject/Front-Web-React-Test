@@ -4,11 +4,19 @@ import Button from '@material-ui/core/Button';
 
 const styles = {
     form:{
-        marginTop: 100,
+        // marginTop: 100,
+        // display: 'flex',
+        // flexDirection: 'column',
+        // flexWrap: 'wrap',
+        // width: 300,
+        backgroundColor: 'rgba(255, 255, 255, 0.85)',
+        margin: '0 auto',
+        marginTop: '20vh',
         display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         flexDirection: 'column',
-        flexWrap: 'wrap',
-        width: 300
+        width: '400px'
     }
 }
 
@@ -23,6 +31,8 @@ export class EventDetailForm extends Component {
         return (
             <div style={styles.form}>
                 <React.Fragment>
+                    <h1>Create your event</h1>
+                    <br/>
                     <TextField
                         label='Event Title'
                         onChange={handleChange('title')}
@@ -42,6 +52,16 @@ export class EventDetailForm extends Component {
                         onChange={handleChange('description')}
                         defaultValue={values.description}
                     />
+                    <br/>
+                    <TextField
+                        label='Location'
+                        onChange={handleChange('location')}
+                        defaultValue={values.location}
+                    />
+                    <br/>
+                    <Button size="large" color="primary">
+                        Submit
+                    </Button>
                 </React.Fragment>
             </div>
         )

@@ -3,18 +3,21 @@
         "id": 0,
         "name": "Alex",
         "lastMsgTime": "08:12",
-        "lastMessage": "Salut ça va ?"
+        "lastMessage": "Salut ça va ?",
+        "profilePic": "../img/avatar/0.png"
     },
     "1":{
-        "id": 0,
+        "id": 1,
         "name": "Yanis",
         "lastMsgTime": "18:05",
-        "lastMessage": "Oui"
+        "lastMessage": "Oui",
+        "profilePic": "../img/avatar/0.png"
     },
     "2":{
-        "id": 0,
+        "id": 2,
         "name": "Florian",
         "lastMsgTime": "10:15",
-        "lastMessage": "Et toi ?"
+        "lastMessage": "Et toi ?",
+        "profilePic": "../img/avatar/0.png"
     }
 }

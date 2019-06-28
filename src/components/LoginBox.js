@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 const styles = {
     loginBox: {
@@ -52,14 +53,15 @@ class LoginBox extends Component{
                         InputProps= {styles.loginFields.input}
                         
                     />
-
-                    <Button className='loginButton' 
-                        style={styles.loginButton}
-                        label='Sign In'
-                        onClick={this.submitLogin.bind(this)}
-                    >
-                        Login
-                    </Button>
+                    <Link style={styles.loginButton} to='/homepage'>
+                        <Button className='loginButton' 
+                            
+                            label='Sign In'
+                            onClick={this.submitLogin.bind(this)}
+                        >
+                            Login
+                        </Button>
+                    </Link>
                 </div>
 
             </div>

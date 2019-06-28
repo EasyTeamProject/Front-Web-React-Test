@@ -7,7 +7,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { func } from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,25 +38,25 @@ export default function FriendList() {
                 {getFriendsData().map(item=>
                     <ListItem alignItems="flex-start">
                         {/* <ListItemAvatar>
-                            <Avatar alt="item." src="/static/images/avatar/1.jpg" />
+                            <Avatar alt={item.name} src={require(item.profilePic)} />
                         </ListItemAvatar> */}
-                    <ListItemText
-                    primary={item.name}
-                    secondary={
-                        <React.Fragment>
-                        <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                        >
-                            {item.lastMsgTime}
-                        </Typography>
-                        {" " + item.lastMessage}
-                        </React.Fragment>
-                    }
-                    />
-                    <Divider variant="inset" component="li" />
+                        <ListItemText
+                            primary={item.name}
+                            secondary={
+                                <React.Fragment>
+                                    <Typography
+                                        component="span"
+                                        variant="body2"
+                                        className={classes.inline}
+                                        color="textPrimary"
+                                    >
+                                        {item.lastMsgTime}
+                                    </Typography>
+                                    {" " + item.lastMessage}
+                                </React.Fragment>
+                            }
+                        />
+                        <Divider variant="inset" component="li" />
                     </ListItem>
                     
                 )}

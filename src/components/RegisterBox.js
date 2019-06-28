@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 const styles = {
     registerBox: {
@@ -56,14 +57,14 @@ class RegisterBox extends Component{
                         label='Password'
                         
                     />
-
-                    <Button className='registerButton' 
-                        style={styles.registerButton}
-                        label='Sign In'
-                        onClick={this.submitRegister.bind(this)}
-                    >
-                        Register
-                    </Button>
+                    <Link style={styles.registerButton} to="/homepage">
+                        <Button className='registerButton' 
+                            label='Sign In'
+                            onClick={this.submitRegister.bind(this)}
+                        >
+                            Register
+                        </Button>
+                    </Link>
                 </div>
 
             </div>
