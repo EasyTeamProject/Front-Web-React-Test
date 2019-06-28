@@ -55,7 +55,7 @@ class HomePage extends Component{
                         </Fab>
                     </Link>
                     {arrEvents.map(item => 
-                        <ButtonBase style={styles.buttonBase} className={"card"+item.id} onClick={e => this.showDrawer(item)}>
+                        <ButtonBase style={styles.buttonBase} className={"card"+item.id}>
                             <EventCard eventId={item.id} eventTitle={item.title} eventDate={item.date} eventPlace={item.place} eventSubject={item.subject}/>
                         </ButtonBase>)}
                 </ul>
