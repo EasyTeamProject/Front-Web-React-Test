@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import EventDetailForm from '../components/EventCreationTunnel/EventDetailForm';
 import CustomAppBar from '../components/CustomAppBar';
+import FriendsForm from '../components/EventCreationTunnel/FriendsForm';
 
 
 const styles = {
@@ -18,12 +19,10 @@ export class EventCreationTunnel extends Component {
         description: '',
         location: '',
         friends: '',
-        budget: '',
-        checkList: ''
     }
 
     //Next step
-    nextStep(){
+    nextStep = () => {
         const { step } = this.state;
         this.setState({
             step: step + 1
@@ -31,7 +30,7 @@ export class EventCreationTunnel extends Component {
     }
 
     //Previous step
-    previousStep(){
+    previousStep = () => {
         const { step } = this.state;
         this.setState({
             step: step - 1
@@ -41,6 +40,10 @@ export class EventCreationTunnel extends Component {
     //Handle fields change
     handleChange = input => e => {
         this.setState({[input]: e.target.value});
+    }
+
+    handleLocationChange = value => {
+        this.setState({location: value});
     }
 
     render() {
@@ -53,23 +56,34 @@ export class EventCreationTunnel extends Component {
                 return(
                     <React.Fragment style={styles.container}>
                         <CustomAppBar pageTitle="Create your Event" />
-                        <EventDetailForm
+                        <EventDetailForm 
                             nextStep={this.nextStep}
                             handleChange={this.handleChange}
+                            handleLocationChange={this.handleLocationChange}
                             values={values}
                         />
                     </React.Fragment>  
                 )
             case 2:
-                return <h1>LocationForm</h1>
+                return(
+                    <React.Fragment style={styles.container}>
+                        <CustomAppBar pageTitle="Who's coming ?"/>
+                        <FriendsForm/>
+                    </React.Fragment>
+                    // <React.Fragment style={styles.container}>
+                    //     <CustomAppBar pageTitle="Pick the Place !" step={this.state.step}/>
+                    //     <GoogleSuggest style={styles.map}/>
+                    //     <LocationForm
+                    //         nextStep={this.nextStep}
+                    //         handleChange={this.handleChange}
+                    //         values={values}
+                    //     />
+                    // </React.Fragment>  
+                )
             case 3:
-                return <h1>FriendsForm</h1>
-            case 4:
-                return <h1>EventCheckList</h1>
-            case 5:
-                return <h1>BudgetForm</h1>
-            case 6:
                 return <h1>EventRecap</h1>
+            default :
+                return <h1>Error</h1>
         }
     }
 }

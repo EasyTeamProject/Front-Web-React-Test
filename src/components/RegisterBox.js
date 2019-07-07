@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
+import Axios from 'axios';
 
 const styles = {
     registerBox: {
@@ -28,11 +28,31 @@ const styles = {
 class RegisterBox extends Component{
     constructor(props){
         super(props);
-        this.state = {};
+        this.state = {
+            email: '',
+            password: '',
+            items: []
+        };
+    }
+
+    componentDidMount(){
+        Axios.get("http://0.0.0.0:3000/users").then(
+            result => {
+                this.setState({
+                    items: result.data 
+                });
+            },
+            error => {
+                this.setState({
+                  error
+                });
+            }
+        );
     }
 
     submitRegister(e){
-
+        this.componentDidMount();
+        console.log(this.state.items);
     }
 
     render(){
@@ -57,14 +77,12 @@ class RegisterBox extends Component{
                         label='Password'
                         
                     />
-                    <Link style={styles.registerButton} to="/homepage">
-                        <Button className='registerButton' 
-                            label='Sign In'
-                            onClick={this.submitRegister.bind(this)}
-                        >
-                            Register
-                        </Button>
-                    </Link>
+                    <Button style={styles.registerButton} className='registerButton' 
+                        label='Sign In'
+                        onClick={this.submitRegister.bind(this)}
+                    >
+                        Register
+                    </Button>
                 </div>
 
             </div>

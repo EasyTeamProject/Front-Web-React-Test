@@ -28,10 +28,6 @@ const styles = {
 }
 
 class HomePage extends Component{
-    constructor(props){
-        super(props);
-        var focusedCard;
-    }
 
     getEventData(){
         var data = require('../data/events.json');
