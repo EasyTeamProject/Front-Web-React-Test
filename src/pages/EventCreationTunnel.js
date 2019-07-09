@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import EventDetailForm from '../components/EventCreationTunnel/EventDetailForm';
 import CustomAppBar from '../components/CustomAppBar';
 import FriendsForm from '../components/EventCreationTunnel/FriendsForm';
+import EventRecap from '../components/EventCreationTunnel/EventRecap';
 
 
 const styles = {
@@ -18,7 +19,7 @@ export class EventCreationTunnel extends Component {
         date: '',
         description: '',
         location: '',
-        friends: '',
+        friends: [],
     }
 
     //Next step
@@ -34,7 +35,13 @@ export class EventCreationTunnel extends Component {
         const { step } = this.state;
         this.setState({
             step: step - 1
-        })
+        });
+    }
+
+    updateFriends = friends =>{
+        this.setState({
+            friends: friends
+        });
     }
 
     //Handle fields change
@@ -68,7 +75,7 @@ export class EventCreationTunnel extends Component {
                 return(
                     <React.Fragment style={styles.container}>
                         <CustomAppBar pageTitle="Who's coming ?"/>
-                        <FriendsForm/>
+                        <FriendsForm nextStep={this.nextStep} updateFriends={this.updateFriends}/>
                     </React.Fragment>
                     // <React.Fragment style={styles.container}>
                     //     <CustomAppBar pageTitle="Pick the Place !" step={this.state.step}/>
@@ -81,7 +88,12 @@ export class EventCreationTunnel extends Component {
                     // </React.Fragment>  
                 )
             case 3:
-                return <h1>EventRecap</h1>
+                return(
+                    <React.Fragment style={styles.container}>
+                        <CustomAppBar pageTitle="Event Recap"/>
+                        <EventRecap values={values}/>
+                    </React.Fragment>
+                )
             default :
                 return <h1>Error</h1>
         }

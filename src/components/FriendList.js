@@ -37,13 +37,13 @@ const useStyles = makeStyles(theme => ({
   },
   button:{
       textAlign: 'left',
+      width: '100%'
   }
 }));
 
 export default function FriendList(props) {
     const classes = useStyles();
     const friends = props.friendList;
-    console.log(friends);
     
     return (
         

@@ -17,7 +17,7 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
-        width: '400px'
+        maxWidth: '400px'
     },
     date:{
         width: '200px'
