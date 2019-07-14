@@ -6,13 +6,6 @@ import HomePage from './pages/HomePage';
 import EventCreationTunnel from './pages/EventCreationTunnel'
 
 class App extends Component {
-  constructor(props){
-    super(props);
-    this.state={
-      isLoginOpen: true,
-      isRegisterOpen: false
-    }
-  }
 
   render() {
     return(

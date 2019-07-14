@@ -1,7 +1,6 @@
 import React from 'react';
 import LoginBox from '../components/LoginBox';
 import RegisterBox from '../components/RegisterBox';
-import CustomAppBar from '../components/CustomAppBar';
 import { Button, ButtonGroup } from '@material-ui/core';
 
 
@@ -48,7 +47,6 @@ class Login extends React.Component {
 
         return (
             <div className="root-container" style={styles.rootContainer}>
-                <CustomAppBar pageTitle="Login"/>
                 <ButtonGroup className="box-controller" 
                     style={styles.form}>
                     <Button disabled={this.state.isLoginOpen} className={"controller " + (this.state.isLoginOpen ? "selected-controller" : "")}

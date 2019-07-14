@@ -4,7 +4,6 @@ import AddIcon from '@material-ui/icons/Add';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import AppDrawer from '../components/AppDrawer';
 import EventCard from '../components/EventCard';
-import FriendList from '../components/FriendList';
 import { Link } from 'react-router-dom';
 
 
@@ -56,7 +55,7 @@ class HomePage extends Component{
                         </ButtonBase>)}
                 </ul>
 
-                <FriendList/>
+                {/* <FriendList/> */}
             </div>
         );
     }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 import Axios from 'axios';
 
 const styles = {
@@ -29,30 +30,41 @@ class RegisterBox extends Component{
     constructor(props){
         super(props);
         this.state = {
+            first_name: '',
+            last_name: '',
             email: '',
             password: '',
-            items: []
         };
     }
 
-    componentDidMount(){
-        Axios.get("http://0.0.0.0:3000/users").then(
-            result => {
-                this.setState({
-                    items: result.data 
-                });
-            },
-            error => {
-                this.setState({
-                  error
-                });
-            }
-        );
+    handleChange = input => e => {
+        this.setState({[input]: e.target.value});
     }
 
     submitRegister(e){
-        this.componentDidMount();
-        console.log(this.state.items);
+        var pw = this.state.password;
+        Axios.post('http://0.0.0.0:3000/users', {
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            email: this.state.email,
+            password: this.state.password
+        })
+        .then((response) => {
+            (Axios.post('http://0.0.0.0:3000/sessions', {
+                email: response.data.email,
+                password: pw
+            })
+            .then(function(response){
+                localStorage.setItem('token', response.data.success);
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+            );
+        })
+        .catch(function(error){
+            console.log(error);
+        });
     }
 
     render(){
@@ -60,14 +72,26 @@ class RegisterBox extends Component{
             <div className='registerBox-container' style={styles.registerBox}>
 
                 <div className='box' style={styles.registerFields}>
-                    <TextField id='username-input'
+                    <TextField id='firstname-input'
                         className='register-input'
-                        label='Username'
+                        label='First Name'
+                        required
+                        onChange={this.handleChange('first_name')}
+                    />
+
+                    <TextField id='lastname-input'
+                        className='register-input'
+                        label='Last Name'
+                        required
+                        onChange={this.handleChange('last_name')}
                     />
 
                     <TextField id='email-input'
                         className='register-input'
                         label='Email'
+                        onChange={this.handleChange('email')}
+                        type='email'
+                        required
                     />
 
                     <TextField id='password-input'
@@ -75,14 +99,20 @@ class RegisterBox extends Component{
                         hintText='Enter your Password'
                         floatingLabelText='Password'
                         label='Password'
+                        type='password'
+                        required
+                        onChange={this.handleChange('password')}
                         
                     />
-                    <Button style={styles.registerButton} className='registerButton' 
-                        label='Sign In'
-                        onClick={this.submitRegister.bind(this)}
-                    >
-                        Register
-                    </Button>
+                    <Link style={styles.registerButton} to='/homepage'>
+                        <Button className='registerButton' 
+                            label='Sign In'
+                            onClick={this.submitRegister.bind(this)}
+                        >
+                            Register
+                        </Button>
+                    </Link>
+                    
                 </div>
 
             </div>
