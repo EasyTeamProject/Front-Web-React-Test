@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import FriendList from '../FriendList';
-import { List, ListItem, ListItemText } from '@material-ui/core';
+import { List, ListItem, ListItemText, Button } from '@material-ui/core';
+
 
 const styles = {
   recap:{
@@ -24,12 +25,36 @@ export class EventRecap extends Component {
       <React.Fragment>
         <List style={styles.recap}>
           <ListItem>
+            <ListItemText
+              primary={values.title}
+            />
+          </ListItem>
+          <ListItem>
           <ListItemText
-            primary={values.title}
+            primary={values.date}
+          />
+          </ListItem>
+          <ListItem>
+          <ListItemText
+            primary={values.location}
+          />
+          </ListItem>
+          <ListItem>
+          <ListItemText
+            primary={values.description}
           />
           </ListItem>
           <ListItem>
             <FriendList friendList={values.friends}/>
+          </ListItem>
+          <ListItem>
+            <Button
+              size="large" 
+              color="primary"
+              >
+                Submit
+              </Button>
+              
           </ListItem>
         </List>
       </React.Fragment>

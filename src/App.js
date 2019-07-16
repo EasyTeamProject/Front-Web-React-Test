@@ -3,19 +3,34 @@ import './css/app.css';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Login from './pages/Login';
 import HomePage from './pages/HomePage';
-import EventCreationTunnel from './pages/EventCreationTunnel'
+import EventCreationTunnel from './pages/EventCreationTunnel';
+import ChatPage from './pages/ChatPage';
+import firebase from 'firebase';
+import firebaseConfig from './config/firebaseConfig';
 
 class App extends Component {
 
   render() {
+    firebase.initializeApp(firebaseConfig);
     return(
-      <Router>
+      <div>
+        <Router>
           <Route path = "/createEvent" component = {EventCreationTunnel}/>
           <Route path = "/login" component = {Login}/>
           <Route path = "/homepage" component = {HomePage}/>
-      </Router>
+          <Route path = "/chat" component = {ChatPage}/>
+        </Router>
+        {/* <!-- The core Firebase JS SDK is always required and must be listed first --> */}
+        <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js"></script>
+
+        {/* <!-- TODO: Add SDKs for Firebase products that you want to use
+            https://firebase.google.com/docs/web/setup#config-web-app --> */}
+
+      </div>
+      
+      
     )
-}
+  }
 }
 
 export default App;

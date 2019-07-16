@@ -81,7 +81,6 @@ export default class GoogleSuggest extends Component {
                               onChange={this.handleInputChange}
                             />
                         </ReactGooglePlacesSuggest>
-                      
                     )
                 }
             />
