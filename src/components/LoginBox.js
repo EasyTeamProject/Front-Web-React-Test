@@ -41,7 +41,7 @@ class LoginBox extends Component{
 
     submitLogin(e){
 
-        Axios.post('http://0.0.0.0:3000/sessions', {
+        Axios.post('/sessions', {
             email: this.state.username,
             password: this.state.password
         })
@@ -73,11 +73,11 @@ class LoginBox extends Component{
                         InputProps= {styles.loginFields.input}
                         required
                         onChange={this.handleChange('password')}
-                        
+
                     />
                     <Link style={styles.loginButton} to='/homepage'>
-                        <Button className='loginButton' 
-                            
+                        <Button className='loginButton'
+
                             label='Sign In'
                             onClick={this.submitLogin.bind(this)}
                         >

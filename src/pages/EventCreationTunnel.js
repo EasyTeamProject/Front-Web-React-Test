@@ -5,12 +5,12 @@ import FriendsForm from '../components/EventCreationTunnel/FriendsForm';
 import EventRecap from '../components/EventCreationTunnel/EventRecap';
 
 
-const styles = {
-    container:{
-        display: 'flex',
-        flexDirection: 'column',
-    }
-}
+// const styles = {
+//     container:{
+//         display: 'flex',
+//         flexDirection: 'column',
+//     }
+// }
 
 export class EventCreationTunnel extends Component {
     state = {
