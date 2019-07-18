@@ -61,19 +61,19 @@ export class EventCreationTunnel extends Component {
         switch(step){
             case 1:
                 return(
-                    <React.Fragment style={styles.container}>
+                    <React.Fragment>
                         <CustomAppBar pageTitle="Create your Event" />
-                        <EventDetailForm 
+                        <EventDetailForm
                             nextStep={this.nextStep}
                             handleChange={this.handleChange}
                             handleLocationChange={this.handleLocationChange}
                             values={values}
                         />
-                    </React.Fragment>  
+                    </React.Fragment>
                 )
             case 2:
                 return(
-                    <React.Fragment style={styles.container}>
+                    <React.Fragment>
                         <CustomAppBar pageTitle="Who's coming ?"/>
                         <FriendsForm nextStep={this.nextStep} updateFriends={this.updateFriends}/>
                     </React.Fragment>
@@ -85,11 +85,11 @@ export class EventCreationTunnel extends Component {
                     //         handleChange={this.handleChange}
                     //         values={values}
                     //     />
-                    // </React.Fragment>  
+                    // </React.Fragment>
                 )
             case 3:
                 return(
-                    <React.Fragment style={styles.container}>
+                    <React.Fragment >
                         <CustomAppBar pageTitle="Event Recap"/>
                         <EventRecap values={values}/>
                     </React.Fragment>
