@@ -26,7 +26,7 @@ class ChatPage extends Component {
       .push({
         event_id: '1',
         messageText: message,
-        messageTime: new Date().getTime().toString(),
+        messageTime: new Date().getTime(),
         messageUser: 'Florian Richard'
       })
   }

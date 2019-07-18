@@ -9,7 +9,6 @@ import firebase from 'firebase';
 import firebaseConfig from './config/firebaseConfig';
 
 class App extends Component {
-
   render() {
     firebase.initializeApp(firebaseConfig);
     return(

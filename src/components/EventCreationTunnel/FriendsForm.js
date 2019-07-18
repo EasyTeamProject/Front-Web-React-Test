@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { List, ListItem, Button, ListItemAvatar, Avatar, ListItemText, Divider } from '@material-ui/core';
+import Axios from 'axios';
 
 const styles = {
   container:{
@@ -77,12 +78,25 @@ export class FriendsForm extends Component {
   }
 
   getFriendsData(){
-    var data = require('../../data/friends.json');
-    var arrFriends = [];
-    Object.keys(data).forEach(function(key){
-        arrFriends.push(data[key]);
+    Axios.get('http://0.0.0.0:3000/users',{
+        headers: {
+          "Access-Control-Request-Method" : "*",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, HEAD",
+          "JWT": localStorage.getItem('token')}
+      }
+    )
+    .then(function(response){
+      console.log(response);
+      var arrFriends = [];
+      Object.keys(response).forEach(function(key){
+        arrFriends.push(response[key]);
+      });
+      return arrFriends;
+    })
+    .catch(function(error){
+      console.log(error);
     });
-    return arrFriends;
   }
 
   continue = e => {
