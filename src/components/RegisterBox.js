@@ -43,14 +43,14 @@ class RegisterBox extends Component{
 
     submitRegister(e){
         var pw = this.state.password;
-        Axios.post('http://0.0.0.0:3000/users', {
+        Axios.post('/users', {
             first_name: this.state.first_name,
             last_name: this.state.last_name,
             email: this.state.email,
             password: this.state.password
         })
         .then((response) => {
-            (Axios.post('http://0.0.0.0:3000/sessions', {
+            (Axios.post('/sessions', {
                 email: response.data.email,
                 password: pw
             })
@@ -102,17 +102,17 @@ class RegisterBox extends Component{
                         type='password'
                         required
                         onChange={this.handleChange('password')}
-                        
+
                     />
                     <Link style={styles.registerButton} to='/homepage'>
-                        <Button className='registerButton' 
+                        <Button className='registerButton'
                             label='Sign In'
                             onClick={this.submitRegister.bind(this)}
                         >
                             Register
                         </Button>
                     </Link>
-                    
+
                 </div>
 
             </div>

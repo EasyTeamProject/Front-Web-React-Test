@@ -58,7 +58,7 @@ export class FriendsForm extends Component {
       invited: newInvited,
       friends: newInvited
     });
-    
+
     this.props.updateFriends(newInvited);
   }
 
@@ -78,7 +78,7 @@ export class FriendsForm extends Component {
   }
 
   getFriendsData(){
-    Axios.get('http://0.0.0.0:3000/users',{
+    Axios.get('/users',{
         headers: {
           "Access-Control-Request-Method" : "*",
           "Access-Control-Allow-Origin": "*",
@@ -112,7 +112,7 @@ export class FriendsForm extends Component {
           {this.state.notInvited.map(item=>
             <ListItem alignItems="flex-start" >
                 <Button
-                    size="large" 
+                    size="large"
                     color="primary"
                     style={styles.button}
                     onClick={this.addFriend.bind(this, item)}
@@ -133,7 +133,7 @@ export class FriendsForm extends Component {
           {this.state.invited.map(item=>
             <ListItem alignItems="flex-start" >
                 <Button
-                    size="large" 
+                    size="large"
                     color="primary"
                     style={styles.button}
                     onClick={this.removeFriend.bind(this, item)}
@@ -153,15 +153,15 @@ export class FriendsForm extends Component {
         {/* <FriendList friendList={notInvited} addFriend={this.addFriend}/>
         <FriendList friendList={invited}/> */}
       </div>
-      <Button 
-          size="large" 
+      <Button
+          size="large"
           color="primary"
           onClick={this.continue}
           style={styles.submitButton}>
           Submit
       </Button>
       </div>
-      
+
     )
   }
 }
