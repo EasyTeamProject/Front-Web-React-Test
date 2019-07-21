@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import FriendList from '../FriendList';
 import { List, ListItem, ListItemText, Button } from '@material-ui/core';
+import Axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
 const styles = {
@@ -17,6 +19,44 @@ const styles = {
 }
 
 export class EventRecap extends Component {
+  constructor(props){
+    super(props);
+
+   this.sendEventToApi = this.sendEventToApi.bind(this);
+  }
+
+  sendEventToApi(){
+    var { title, date, friends } = this.props.values;
+    var eventData = {
+      'name': title,
+      'date': date
+    };
+    Axios.post('/events', eventData, {
+      headers: {
+        'JWT': localStorage.getItem('token')
+      }
+    })
+    .then((response) => {
+      friends.forEach(element => {
+        var invitationData = {
+          'user_id': element.id
+        };
+        console.log(response);
+        (Axios.post('/events/' + response.data.id + '/invitations', invitationData ,{
+          headers:{
+            "JWT": localStorage.getItem('token')
+          }
+        }))
+        .catch(function(error){
+          console.log("invitation error");
+        })
+      });
+      
+    })
+    .catch(function(error){
+      console.log("event creation error");
+    })
+  }
 
   render() {
     const { values } = this.props;
@@ -48,12 +88,16 @@ export class EventRecap extends Component {
             <FriendList friendList={values.friends}/>
           </ListItem>
           <ListItem>
-            <Button
-              size="large" 
-              color="primary"
-              >
+            <Link to='/homepage'>
+              <Button
+                size="large" 
+                color="primary"
+                onClick={this.sendEventToApi}
+                >
                 Submit
               </Button>
+            </Link>
+            
               
           </ListItem>
         </List>

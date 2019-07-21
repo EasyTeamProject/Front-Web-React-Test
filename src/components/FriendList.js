@@ -28,12 +28,11 @@ const useStyles = makeStyles(theme => ({
   friends:{
     backgroundColor: 'rgba(255, 255, 255, 0.85)',
     margin: '0 auto',
-    marginTop: '20vh',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    width: '400px'
+    width: '100%'
   },
   button:{
       textAlign: 'left',

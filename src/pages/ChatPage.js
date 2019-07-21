@@ -1,15 +1,46 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import { TextField, List, ListItem, ListItemText } from "@material-ui/core";
+import { Fab, TextField, List, ListItem, ListItemText } from "@material-ui/core";
+import { AddIcon } from '@material-ui/icons/Add';
+import AppDrawer from '../components/AppDrawer';
 
+const styles = {
+  chatWindow: {
+    backgroundColor: 'rgba(255, 255, 255, 0.85)',
+    margin: '0 auto',
+    marginTop: '20vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'left',
+    flexDirection: 'column',
+    width: '400px',
+    height: '600px',
+  },
+  messages: {
+    overflow: 'auto',
+  },
+  chatInput: {
+    width: '90%',
+  },
+  singleMessages: {
+    // display: 'flex',
+    width: "100%",
+    flexDirection: 'column',
+    justifyContent: 'left',
+    // textAlign: 'left',
+  }
+}
 
 class ChatPage extends Component {
   constructor(props) {
     super(props)
-    this.state = { text: "", messages: [] }
+    this.state = {
+      text: "",
+      messages: []
+    }
   }
   componentDidMount() {
-    this.getMessages()
+    this.getMessages();
   }
 
   onSubmit = event => {
@@ -32,6 +63,8 @@ class ChatPage extends Component {
   }
 
   getMessages = () => {
+    const { currentEventId } = this.props;
+    console.log(currentEventId);
     var messagesDB = firebase
       .database()
       .ref("chat/")
@@ -40,7 +73,7 @@ class ChatPage extends Component {
       let newMessages = []
       snapshot.forEach(child => {
         var message = child.val()
-        if(message.event_id === "1")
+        if (message.event_id === '' + currentEventId)
           newMessages.push({ id: child.key, text: message.messageText, userName: message.messageUser })
       })
       this.setState({ messages: newMessages })
@@ -50,10 +83,14 @@ class ChatPage extends Component {
 
   renderMessages = () => {
     return this.state.messages.map(message => (
-      <ListItem>
+      <ListItem style={styles.singleMessages}>
         <ListItemText
-          style={{ wordBreak: "break-word" }}
-          primary={message.userName + ' : ' + message.text}
+          style={{ wordBreak: "break-word", width: '100%' }}
+          secondary={message.userName}
+        />
+        <ListItemText
+          style={{ width: '100%' }}
+          primary={message.text}
         />
       </ListItem>
     ))
@@ -61,20 +98,29 @@ class ChatPage extends Component {
 
   render() {
     return (
-      <div className="App">
-        <List>{this.renderMessages()}</List>
-        <TextField
-          autoFocus={true}
-          multiline={true}
-          rowsMax={3}
-          placeholder="Type something.."
-          onChange={event => this.setState({ text: event.target.value })}
-          value={this.state.text}
-          onKeyPress={this.onSubmit}
-          style={{ width: "98vw", overflow: "hidden" }}
-        />
-        <span ref={el => (this.bottomSpan = el)} />
+      <div>
+        <AppDrawer />
+        <div style={styles.chatWindow}>
+          <Fab color="primary" aria-label="Add">
+            <AddIcon />
+          </Fab>
+          <div style={styles.messages}>
+            <List>{this.renderMessages()}</List>
+            <span ref={el => (this.bottomSpan = el)} />
+          </div>
+          <TextField
+            autoFocus={true}
+            multiline={true}
+            rowsMax={3}
+            placeholder="Type something.."
+            onChange={event => this.setState({ text: event.target.value })}
+            value={this.state.text}
+            onKeyPress={this.onSubmit}
+            style={styles.chatInput}
+          />
+        </div>
       </div>
+
     )
   }
 }

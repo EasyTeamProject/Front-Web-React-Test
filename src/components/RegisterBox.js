@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Axios from 'axios';
 
 const styles = {
@@ -16,59 +16,77 @@ const styles = {
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
     },
-    registerFields:{
+    registerFields: {
         display: 'flex',
         flexDirection: 'column',
     },
-    registerButton:{
+    registerButton: {
         margin: 'auto'
     }
 }
 
 
-class RegisterBox extends Component{
-    constructor(props){
+class RegisterBox extends Component {
+    constructor(props) {
         super(props);
         this.state = {
             first_name: '',
             last_name: '',
             email: '',
             password: '',
+            redirect: false
         };
     }
 
     handleChange = input => e => {
-        this.setState({[input]: e.target.value});
+        this.setState({ [input]: e.target.value });
     }
 
-    submitRegister(e){
-        var pw = this.state.password;
-        Axios.post('/users', {
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            email: this.state.email,
-            password: this.state.password
-        })
-        .then((response) => {
-            (Axios.post('/sessions', {
-                email: response.data.email,
-                password: pw
+    submitRegister(e) {
+        const { email, password, first_name, last_name } = this.state;
+        if (email === '' || password === '' || first_name === '' || last_name === '') {
+            alert("Please fille all the fields");
+        }
+        else {
+            var self = this;
+            var pw = this.state.password;
+            Axios.post('/users', {
+                first_name: this.state.first_name,
+                last_name: this.state.last_name,
+                email: this.state.email,
+                password: this.state.password
             })
-            .then(function(response){
-                localStorage.setItem('token', response.data.success);
-            })
-            .catch(function(error){
-                console.log(error);
-            })
-            );
-        })
-        .catch(function(error){
-            console.log(error);
-        });
+                .then((response) => {
+                    (Axios.post('/sessions', {
+                        email: response.data.email,
+                        password: pw
+                    })
+                        .then(function (response) {
+                            localStorage.setItem('token', response.data.success);
+                            localStorage.setItem('user_id', response.data.user.id);
+                            if (typeof response.data.error === 'undefined') {
+                                self.setState({
+                                    redirect: true
+                                })
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                    );
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
     }
 
-    render(){
-        return(
+    render() {
+        if (this.state.redirect) {
+            return <Redirect to='/homepage' />
+        }
+        return (
             <div className='registerBox-container' style={styles.registerBox}>
 
                 <div className='box' style={styles.registerFields}>
@@ -104,14 +122,12 @@ class RegisterBox extends Component{
                         onChange={this.handleChange('password')}
 
                     />
-                    <Link style={styles.registerButton} to='/homepage'>
-                        <Button className='registerButton'
-                            label='Sign In'
-                            onClick={this.submitRegister.bind(this)}
-                        >
-                            Register
+                    <Button style={styles.registerButton} className='registerButton'
+                        label='Sign In'
+                        onClick={this.submitRegister.bind(this)}
+                    >
+                        Register
                         </Button>
-                    </Link>
 
                 </div>
 

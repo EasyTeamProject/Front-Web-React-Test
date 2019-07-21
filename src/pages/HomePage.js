@@ -7,6 +7,8 @@ import EventCard from '../components/EventCard';
 import { Link } from 'react-router-dom';
 import { Slide } from '@material-ui/core';
 import { Dialog, AppBar, Toolbar, IconButton, Typography, Divider, List, ListItem, ListItemText, Button } from "@material-ui/core";
+import Axios from 'axios';
+import ChatPage from './ChatPage';
 
 
 
@@ -19,6 +21,8 @@ const styles = {
     testCard: {
         width: '100%',
         marginLeft: '240px',
+        paddingLeft: '15%',
+        paddingRight: '15%',
         display: 'flex',
         flexFlow: 'column'
     },
@@ -42,9 +46,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 class HomePage extends Component {
     constructor(props) {
-        super(props);
+        super();
         this.state = {
-            dialogOpen: []
+            events: [],
+            dialogOpen: [false],
+            currentEventId: 0,
+
+            redirectChat: false
         }
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -59,11 +67,18 @@ class HomePage extends Component {
         })
     }
 
+    redirectToChat(){
+        this.setState({
+            redirectChat: true
+        });
+    }
+
     handleOpen(id) {
         var tmp = this.state.dialogOpen;
         tmp[id] = true;
         this.setState({
-            dialogOpen: tmp
+            dialogOpen: tmp,
+            currentEventId: id
         })
     }
 
@@ -75,40 +90,50 @@ class HomePage extends Component {
         })
     }
 
-    // getDetailsEvent(item) {
-    //     this.handleOpen();
-    //     return (
-            
-    //     )
-    // }
-
-    getEventData() {
-        var data = require('../data/events.json');
-        return data;
+    componentDidMount(){
+        var self = this;
+        Axios.get('/events', {
+            headers:{
+                "JWT": localStorage.getItem('token')
+            }
+        }
+        ).then(function(response){
+            var arrEvents = [];
+            var data = response.data;
+            Object.keys(data).forEach(function(key){
+                arrEvents.push(data[key]);
+            });
+            self.setState({
+                events: arrEvents
+            });
+        })
+        .catch(function(error){
+            console.log(error);
+        });
     }
 
     render() {
-        var json = this.getEventData();
-        var arrEvents = [];
-        Object.keys(json).forEach(function (key) {
-            arrEvents.push(json[key]);
-        });
+        if(this.state.redirectChat){
+            return(
+                <ChatPage currentEventId={this.state.currentEventId}/>
+            )
+        }
         return (
             <div style={styles.container}>
-                <AppDrawer />
+                <AppDrawer/>
                 <ul style={styles.testCard}>
                     <Link to="/createEvent">
                         <Fab color="primary" aria-label="Add" style={styles.fab} onClick="">
                             <AddIcon />
                         </Fab>
                     </Link>
-                    {arrEvents.map(item =>
+                    {this.state.events.reverse().map(item =>
                         <div>
                             {
                                 () => this.addEventId
                             }
                             <ButtonBase style={styles.buttonBase} className={"card" + item.id} onClick={() => this.handleOpen(item.id)}>
-                                <EventCard eventId={item.id} eventTitle={item.title} eventDate={item.date} eventPlace={item.place} eventSubject={item.subject} />
+                                <EventCard eventId={item.id} eventTitle={item.name} eventDate={item.date} eventPlace={item.place} eventSubject={item.subject} />
                             </ButtonBase>
                             <Dialog fullScreen open={this.state.dialogOpen[item.id]} onClose={this.handleClose} TransitionComponent={Transition}>
                                 <AppBar style={styles.appBar}>
@@ -117,11 +142,14 @@ class HomePage extends Component {
                                             {/* <CloseIcon /> */}
                                         </IconButton>
                                         <Typography variant="h3" style={styles.title}>
-                                            {item.title}
+                                            {item.name}
                                         </Typography>
                                         <Typography variant="h6" style={styles.title}>
                                             {item.date}
                                         </Typography>
+                                        <Button color="inherit" onClick={() => this.redirectToChat()}>
+                                            chat
+                                        </Button>
                                         <Button color="inherit" onClick={() => this.handleClose(item.id)}>
                                             save
                                         </Button>

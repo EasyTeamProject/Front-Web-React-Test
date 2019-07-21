@@ -3,11 +3,11 @@ import { List, ListItem, Button, ListItemAvatar, Avatar, ListItemText, Divider }
 import Axios from 'axios';
 
 const styles = {
-  container:{
+  container: {
     display: 'flex',
     flexDirection: 'row',
   },
-  friends:{
+  friends: {
     backgroundColor: 'rgba(255, 255, 255, 0.85)',
     margin: '0 auto',
     marginTop: '20vh',
@@ -17,11 +17,11 @@ const styles = {
     flexDirection: 'column',
     width: '400px'
   },
-  button:{
+  button: {
     textAlign: 'left',
     width: '100%'
   },
-  submitButton:{
+  submitButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.85)',
     margin: '0 auto',
     display: 'flex',
@@ -33,10 +33,10 @@ const styles = {
 }
 
 export class FriendsForm extends Component {
-  constructor(props){
-    super(props);
+  constructor(props) {
+    super();
     this.state = {
-      notInvited: this.getFriendsData(),
+      notInvited: [],
       invited: []
     }
 
@@ -44,11 +44,35 @@ export class FriendsForm extends Component {
     this.removeFriend = this.removeFriend.bind(this);
   }
 
-  addFriend(friend){
+  componentDidMount() {
+    var self = this;
+    Axios.get('/friends', {
+      headers: {
+        "JWT": localStorage.getItem('token')
+      }
+    }
+    ).then(function (response) {
+        var arrFriends = [];
+        var data = response.data;
+        Object.keys(data).forEach(function (key) {
+          if(key !== '0'){
+            arrFriends.push(data[key]);
+          }
+        });
+        self.setState({
+          notInvited: arrFriends
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  addFriend(friend) {
     var newNotInvited = this.state.notInvited;
     var newInvited = this.state.invited;
-    for(var i = 0; i < newNotInvited.length ; i++){
-      if( newNotInvited[i] === friend){
+    for (var i = 0; i < newNotInvited.length; i++) {
+      if (newNotInvited[i] === friend) {
         newNotInvited.splice(i, 1);
         newInvited.push(friend);
       }
@@ -62,11 +86,11 @@ export class FriendsForm extends Component {
     this.props.updateFriends(newInvited);
   }
 
-  removeFriend(friend){
+  removeFriend(friend) {
     var newNotInvited = this.state.notInvited;
     var newInvited = this.state.invited;
-    for(var i = 0; i < newInvited.length ; i++){
-      if( newInvited[i] === friend){
+    for (var i = 0; i < newInvited.length; i++) {
+      if (newInvited[i] === friend) {
         newInvited.splice(i, 1);
         newNotInvited.push(friend);
       }
@@ -77,83 +101,62 @@ export class FriendsForm extends Component {
     });
   }
 
-  getFriendsData(){
-    Axios.get('/users',{
-        headers: {
-          "Access-Control-Request-Method" : "*",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, HEAD",
-          "JWT": localStorage.getItem('token')}
-      }
-    )
-    .then(function(response){
-      console.log(response);
-      var arrFriends = [];
-      Object.keys(response).forEach(function(key){
-        arrFriends.push(response[key]);
-      });
-      return arrFriends;
-    })
-    .catch(function(error){
-      console.log(error);
-    });
-  }
-
   continue = e => {
     e.preventDefault();
     this.props.nextStep();
-}
+  }
 
   render() {
+    console.log(this.state.notInvited);
     return (
       <div>
         <div style={styles.container}>
-        <List style={styles.friends}>
-          {this.state.notInvited.map(item=>
-            <ListItem alignItems="flex-start" >
+          <List style={styles.friends}>
+            {this.state.notInvited.map(item =>
+              <ListItem alignItems="flex-start" >
                 <Button
-                    size="large"
-                    color="primary"
-                    style={styles.button}
-                    onClick={this.addFriend.bind(this, item)}
+                  size="large"
+                  color="primary"
+                  style={styles.button}
+                  onClick={this.addFriend.bind(this, item)}
                 >
-                    <ListItemAvatar>
-                        {/* <CardMedia image='../img/avatar/0.png' className={classes.profilePic}/> */}
-                        <Avatar alt={item.name} src={require('../../img/avatar/0.png')} />
-                    </ListItemAvatar>
-                    <ListItemText
-                        primary={item.name}
-                    />
-                    <Divider variant="inset" component="li" />
+                  <ListItemAvatar>
+                    {/* <CardMedia image='../img/avatar/0.png' className={classes.profilePic}/> */}
+                    <Avatar alt={item.name} src={require('../../img/avatar/0.png')} />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={item.name}
+                  />
+                  <Divider variant="inset" component="li" />
                 </Button>
-            </ListItem>
-          )}
-        </List>
-        <List style={styles.friends}>
-          {this.state.invited.map(item=>
-            <ListItem alignItems="flex-start" >
+              </ListItem>
+            )}
+          </List>
+          <List style={styles.friends}>
+            {this.state.invited.map(item =>
+              <ListItem alignItems="flex-start" >
                 <Button
-                    size="large"
-                    color="primary"
-                    style={styles.button}
-                    onClick={this.removeFriend.bind(this, item)}
+                  size="large"
+                  color="primary"
+                  style={styles.button}
+                  onClick={this.removeFriend.bind(this, item)}
                 >
-                    <ListItemAvatar>
-                        {/* <CardMedia image='../img/avatar/0.png' className={classes.profilePic}/> */}
-                        <Avatar alt={item.name} src={require('../../img/avatar/0.png')} />
-                    </ListItemAvatar>
-                    <ListItemText
-                        primary={item.name}
-                    />
-                    <Divider variant="inset" component="li" />
+                  <ListItemAvatar>
+                    {/* <CardMedia image='../img/avatar/0.png' className={classes.profilePic}/> */}
+                    <Avatar alt={item.name} src={require('../../img/avatar/0.png')} />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={item.name}
+                  />
+                  <Divider variant="inset" component="li" />
                 </Button>
-            </ListItem>
-          )}
-        </List>
-        {/* <FriendList friendList={notInvited} addFriend={this.addFriend}/>
+              </ListItem>
+            )}
+          </List>
+          {/* <FriendList friendList={notInvited} addFriend={this.addFriend}/>
         <FriendList friendList={invited}/> */}
-      </div>
-      <Button
+        </div>
+        <Button
           size="large"
           color="primary"
           onClick={this.continue}
