@@ -50,7 +50,7 @@ class HomePage extends Component {
         this.state = {
             events: [],
             dialogOpen: [false],
-            isAdmin: [false],
+            members: [""],
             currentEventId: 0,
 
             redirectChat: false,
@@ -116,20 +116,13 @@ class HomePage extends Component {
                     }
                 }
                 ).then(function(response){
-                    var arrAdmins = [];
+                    var arr = [];
                     var arrMembers = response.data.members;
                     Object.keys(arrMembers).forEach(function(key){
-                        if(JSON.stringify(data[key].user_id) === localStorage.getItem('user_id')){
-                            if(data[key].is_admin){
-                                arrAdmins.push(true);
-                            }
-                            else{
-                                arrAdmins.push(false);
-                            }
-                        }
+                        arr.push(arrMembers[key])
                     })
                     self.setState({
-                        isAdmin: arrAdmins
+                        members: arr
                     })
                 }
                 ).catch(function(error){
@@ -193,11 +186,19 @@ class HomePage extends Component {
                                 </AppBar>
                                 <List>
                                     <ListItem button>
-                                        <ListItemText primary="Location" secondary={item.location}/>
+                                        <ListItemText primary="Location" secondary={item.subject}/>
                                     </ListItem>
                                     <Divider />
                                     <ListItem button>
-                                        <ListItemText primary="Description" secondary={item.description}/>
+                                        <ListItemText primary="Description" secondary={item.information}/>
+                                    </ListItem>
+                                    <ListItem>
+                                        <ListItemText primary="Members"/>
+                                    </ListItem>
+                                    <ListItem>
+                                        {this.state.members.map(member => 
+                                            <ListItemText secondary={member.first_name}/>
+                                        )}
                                     </ListItem>
                                 </List>
                             </Dialog>

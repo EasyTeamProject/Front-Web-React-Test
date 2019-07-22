@@ -26,10 +26,12 @@ export class EventRecap extends Component {
   }
 
   sendEventToApi(){
-    var { title, date, friends } = this.props.values;
+    var { title, date, location, description, friends } = this.props.values;
     var eventData = {
       'name': title,
-      'date': date
+      'date': date,
+      'subject': location,
+      'information': description 
     };
     Axios.post('/events', eventData, {
       headers: {
