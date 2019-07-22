@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Fab } from '@material-ui/core';
+import { Fab, TextField } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import AppDrawer from '../components/AppDrawer';
 import EventCard from '../components/EventCard';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Slide } from '@material-ui/core';
 import { Dialog, AppBar, Toolbar, IconButton, Typography, Divider, List, ListItem, ListItemText, Button } from "@material-ui/core";
 import Axios from 'axios';
@@ -50,13 +50,15 @@ class HomePage extends Component {
         this.state = {
             events: [],
             dialogOpen: [false],
+            isAdmin: [false],
             currentEventId: 0,
 
-            redirectChat: false
+            redirectChat: false,
         }
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.addEventId = this.addEventId.bind(this);
+        this.closeChat = this.closeChat.bind(this);
     }
 
     addEventId(){
@@ -71,6 +73,12 @@ class HomePage extends Component {
         this.setState({
             redirectChat: true
         });
+    }
+
+    closeChat(){
+        this.setState({
+            redirectChat: false
+        })
     }
 
     handleOpen(id) {
@@ -102,9 +110,34 @@ class HomePage extends Component {
             var data = response.data;
             Object.keys(data).forEach(function(key){
                 arrEvents.push(data[key]);
+                Axios.get('/events/' + data[key].id,{
+                    headers:{
+                        "JWT": localStorage.getItem('token')
+                    }
+                }
+                ).then(function(response){
+                    var arrAdmins = [];
+                    var arrMembers = response.data.members;
+                    Object.keys(arrMembers).forEach(function(key){
+                        if(JSON.stringify(data[key].user_id) === localStorage.getItem('user_id')){
+                            if(data[key].is_admin){
+                                arrAdmins.push(true);
+                            }
+                            else{
+                                arrAdmins.push(false);
+                            }
+                        }
+                    })
+                    self.setState({
+                        isAdmin: arrAdmins
+                    })
+                }
+                ).catch(function(error){
+                    console.log(error);
+                })
             });
             self.setState({
-                events: arrEvents
+                events: arrEvents,
             });
         })
         .catch(function(error){
@@ -113,9 +146,12 @@ class HomePage extends Component {
     }
 
     render() {
+        if(localStorage.getItem('token') === null){
+            return <Redirect to='/'/>
+        }
         if(this.state.redirectChat){
             return(
-                <ChatPage currentEventId={this.state.currentEventId}/>
+                <ChatPage closeChat={this.closeChat} currentEventId={this.state.currentEventId}/>
             )
         }
         return (
@@ -141,7 +177,7 @@ class HomePage extends Component {
                                         <IconButton edge="start" color="inherit" onClick={this.handleClose} aria-label="Close">
                                             {/* <CloseIcon /> */}
                                         </IconButton>
-                                        <Typography variant="h3" style={styles.title}>
+                                        <Typography variant="h3" style={styles.title} >
                                             {item.name}
                                         </Typography>
                                         <Typography variant="h6" style={styles.title}>
@@ -151,7 +187,7 @@ class HomePage extends Component {
                                             chat
                                         </Button>
                                         <Button color="inherit" onClick={() => this.handleClose(item.id)}>
-                                            save
+                                            back
                                         </Button>
                                     </Toolbar>
                                 </AppBar>

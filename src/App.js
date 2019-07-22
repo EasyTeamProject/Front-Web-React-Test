@@ -15,7 +15,7 @@ class App extends Component {
       <div>
         <Router>
           <Route path = "/createEvent" component = {EventCreationTunnel}/>
-          <Route path = "/login" component = {Login}/>
+          <Route exact path = "/" component = {Login}/>
           <Route path = "/homepage" component = {HomePage}/>
           <Route path = "/profile" component = {ProfilePage}/>
         </Router>

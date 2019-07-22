@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import { Fab, TextField, List, ListItem, ListItemText } from "@material-ui/core";
+import { Fab, TextField, List, ListItem, ListItemText, Button } from "@material-ui/core";
 import { AddIcon } from '@material-ui/icons/Add';
 import AppDrawer from '../components/AppDrawer';
 
@@ -97,13 +97,12 @@ class ChatPage extends Component {
   }
 
   render() {
+
     return (
       <div>
         <AppDrawer />
         <div style={styles.chatWindow}>
-          <Fab color="primary" aria-label="Add">
-            <AddIcon />
-          </Fab>
+          <Button onClick={this.props.closeChat}>Exit</Button>
           <div style={styles.messages}>
             <List>{this.renderMessages()}</List>
             <span ref={el => (this.bottomSpan = el)} />

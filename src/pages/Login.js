@@ -2,6 +2,7 @@ import React from 'react';
 import LoginBox from '../components/LoginBox';
 import RegisterBox from '../components/RegisterBox';
 import { Button, ButtonGroup } from '@material-ui/core';
+import { Redirect } from 'react-router-dom';
 
 
 const styles = {
@@ -44,6 +45,12 @@ class Login extends React.Component {
     }
 
     render() {
+
+        if(localStorage.getItem('token') !== null){
+            return(
+                <Redirect to="/homepage"/>
+            )
+        }
 
         return (
             <div className="root-container" style={styles.rootContainer}>

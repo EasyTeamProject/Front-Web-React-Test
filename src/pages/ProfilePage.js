@@ -3,6 +3,7 @@ import { List, ListItem, ListItemText } from '@material-ui/core';
 import Axios from 'axios';
 import FriendList from '../components/FriendList';
 import AppDrawer from '../components/AppDrawer';
+import { Redirect } from 'react-router-dom';
 
 const styles = {
     profileBox: {
@@ -60,6 +61,10 @@ export class ProfilePage extends Component {
     }
 
     render() {
+        if(localStorage.getItem('token') === null){
+            return <Redirect to='/'/>
+        }
+
         return (
             <div>
                 <AppDrawer/>

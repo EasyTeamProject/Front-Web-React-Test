@@ -29,6 +29,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function AppDrawer() {
   const classes = useStyles();
+
+  function logOut(){
+    console.log(localStorage.getItem('token'))
+    localStorage.removeItem('token');
+  }
+
   return (
     <Drawer
       className={classes.toolbar}
@@ -60,9 +66,9 @@ export default function AppDrawer() {
       </List>
       <Divider />
       <List>
-        <Link to="/login">
+        <Link to="/">
           <ListItem button key="Logout">
-            <ListItemText primary="Log out" />
+            <ListItemText primary="Log out" onClick={() => logOut()}/>
           </ListItem>
         </Link>
       </List>

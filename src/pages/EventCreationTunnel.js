@@ -3,7 +3,7 @@ import EventDetailForm from '../components/EventCreationTunnel/EventDetailForm';
 import CustomAppBar from '../components/CustomAppBar';
 import FriendsForm from '../components/EventCreationTunnel/FriendsForm';
 import EventRecap from '../components/EventCreationTunnel/EventRecap';
-
+import { Redirect } from 'react-router-dom';
 
 // const styles = {
 //     container:{
@@ -57,6 +57,10 @@ export class EventCreationTunnel extends Component {
         const { step } = this.state;
         const { title, date, description, location, friends, budget, checkList } = this.state;
         const values = { title, date, description, location, friends, budget, checkList };
+
+        if(localStorage.getItem('token') === null){
+            return <Redirect to='/'/>
+        }
 
         switch(step){
             case 1:
