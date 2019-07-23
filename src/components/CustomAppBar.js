@@ -14,6 +14,11 @@ const styles = {
 }
 
 export class CustomAppBar extends Component {
+    constructor(props){
+        super(props);
+
+        this.handleClick = this.handleClick.bind(this);
+    }
 
     searchBarDisplay(){
         if(this.props.step === 2){
@@ -29,6 +34,10 @@ export class CustomAppBar extends Component {
         }
     }
 
+    handleClick(){
+        window.location.reload();
+    }
+
     render() {
         return (
             <div>
@@ -38,7 +47,7 @@ export class CustomAppBar extends Component {
                             {this.props.pageTitle}
                         </Typography>
                         <Link to='/homepage'>
-                            <Button>
+                            <Button onClick={this.handleClick}>
                                 Exit
                             </Button>
                         </Link>

@@ -64,6 +64,9 @@ class RegisterBox extends Component {
                         .then(function (response) {
                             localStorage.setItem('token', response.data.success);
                             localStorage.setItem('user_id', response.data.user.id);
+                            localStorage.setItem('name', response.data.user.name);
+                            localStorage.setItem('email', response.data.user.email);
+                            localStorage.setItem('created', response.data.user.created_at);
                             if (typeof response.data.error === 'undefined') {
                                 self.setState({
                                     redirect: true

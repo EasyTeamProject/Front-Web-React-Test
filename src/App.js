@@ -7,17 +7,22 @@ import EventCreationTunnel from './pages/EventCreationTunnel';
 import firebase from 'firebase';
 import firebaseConfig from './config/firebaseConfig';
 import ProfilePage from './pages/ProfilePage';
+import Notification from './components/Notification';
+import TermOfUses from './components/TermOfUses';
 
 class App extends Component {
   render() {
+
     firebase.initializeApp(firebaseConfig);
     return(
       <div>
+        <Notification sendNotif={false} eventName={null} user_email={null}/>
         <Router>
           <Route path = "/createEvent" component = {EventCreationTunnel}/>
           <Route exact path = "/" component = {Login}/>
           <Route path = "/homepage" component = {HomePage}/>
           <Route path = "/profile" component = {ProfilePage}/>
+          <Route path = "/termofuses" component = {TermOfUses}/>
         </Router>
         {/* <!-- The core Firebase JS SDK is always required and must be listed first --> */}
         <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js"></script>

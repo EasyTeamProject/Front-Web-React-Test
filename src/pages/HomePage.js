@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Fab, TextField } from '@material-ui/core';
+import { Fab } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import AppDrawer from '../components/AppDrawer';
@@ -9,6 +9,7 @@ import { Slide } from '@material-ui/core';
 import { Dialog, AppBar, Toolbar, IconButton, Typography, Divider, List, ListItem, ListItemText, Button } from "@material-ui/core";
 import Axios from 'axios';
 import ChatPage from './ChatPage';
+import EventEdition from './EventEdition';
 
 
 
@@ -36,6 +37,11 @@ const styles = {
     title: {
         flex: 1,
     },
+    fields: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'left',
+    }
 }
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -51,17 +57,29 @@ class HomePage extends Component {
             events: [],
             dialogOpen: [false],
             members: [""],
+
             currentEventId: 0,
 
             redirectChat: false,
+
+            redirectFriends: false,
+
+            redirectEventEdition: false
         }
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.addEventId = this.addEventId.bind(this);
         this.closeChat = this.closeChat.bind(this);
+        this.redirectToEventEdition = this.redirectToEventEdition.bind(this);
     }
 
-    addEventId(){
+    redirectToEventEdition(){
+        this.setState({
+            redirectEventEdition: true
+        })
+    }
+
+    addEventId() {
         var tmp = this.state.dialogOpen;
         tmp.push(false);
         this.setState({
@@ -69,13 +87,13 @@ class HomePage extends Component {
         })
     }
 
-    redirectToChat(){
+    redirectToChat() {
         this.setState({
             redirectChat: true
         });
     }
 
-    closeChat(){
+    closeChat() {
         this.setState({
             redirectChat: false
         })
@@ -90,42 +108,43 @@ class HomePage extends Component {
         })
     }
 
-    handleClose(id) {
+    handleClose(item) {
         var tmp = this.state.dialogOpen;
-        tmp[id] = false;
+        tmp[item.id] = false;
         this.setState({
             dialogOpen: tmp
-        })
+        });
+        Axios.post("/events")
     }
 
-    componentDidMount(){
+    componentDidMount() {
         var self = this;
         Axios.get('/events', {
-            headers:{
+            headers: {
                 "JWT": localStorage.getItem('token')
             }
         }
-        ).then(function(response){
+        ).then(function (response) {
             var arrEvents = [];
             var data = response.data;
-            Object.keys(data).forEach(function(key){
+            Object.keys(data).forEach(function (key) {
                 arrEvents.push(data[key]);
-                Axios.get('/events/' + data[key].id,{
-                    headers:{
+                Axios.get('/events/' + data[key].id, {
+                    headers: {
                         "JWT": localStorage.getItem('token')
                     }
                 }
-                ).then(function(response){
+                ).then(function (response) {
                     var arr = [];
                     var arrMembers = response.data.members;
-                    Object.keys(arrMembers).forEach(function(key){
+                    Object.keys(arrMembers).forEach(function (key) {
                         arr.push(arrMembers[key])
                     })
                     self.setState({
                         members: arr
                     })
                 }
-                ).catch(function(error){
+                ).catch(function (error) {
                     console.log(error);
                 })
             });
@@ -133,23 +152,33 @@ class HomePage extends Component {
                 events: arrEvents,
             });
         })
-        .catch(function(error){
-            console.log(error);
-        });
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     render() {
-        if(localStorage.getItem('token') === null){
-            return <Redirect to='/'/>
+        if (localStorage.getItem('token') === null) {
+            return <Redirect to='/' />
         }
-        if(this.state.redirectChat){
-            return(
-                <ChatPage closeChat={this.closeChat} currentEventId={this.state.currentEventId}/>
+        if (this.state.redirectChat) {
+            return (
+                <ChatPage closeChat={this.closeChat} currentEventId={this.state.currentEventId} />
             )
         }
+        if(this.state.redirectEventEdition){
+            return(
+                <EventEdition eventId={this.state.currentEventId}/>
+            )
+        }
+        // if(this.state.redirectFriends) {
+        //     return(
+        //         <FriendsUpdate eventId={this.state.currentEventId} isInvited={this.state.members}/>
+        //     )
+        // }
         return (
             <div style={styles.container}>
-                <AppDrawer/>
+                <AppDrawer />
                 <ul style={styles.testCard}>
                     <Link to="/createEvent">
                         <Fab color="primary" aria-label="Add" style={styles.fab} onClick="">
@@ -179,27 +208,41 @@ class HomePage extends Component {
                                         <Button color="inherit" onClick={() => this.redirectToChat()}>
                                             chat
                                         </Button>
-                                        <Button color="inherit" onClick={() => this.handleClose(item.id)}>
+                                        <Button color="inherit" onClick={() => this.redirectToEventEdition()}>
+                                            edit
+                                        </Button>
+                                        <Button color="inherit" onClick={() => this.handleClose(item)}>
                                             back
                                         </Button>
                                     </Toolbar>
                                 </AppBar>
                                 <List>
-                                    <ListItem button>
-                                        <ListItemText primary="Location" secondary={item.subject}/>
+                                    <ListItem>
+                                        <ListItemText primary="Place" />
+                                    </ListItem>
+                                    <ListItem>
+                                        <ListItemText secondary={item.subject}  />
                                     </ListItem>
                                     <Divider />
-                                    <ListItem button>
-                                        <ListItemText primary="Description" secondary={item.information}/>
+                                    <ListItem>
+                                        <ListItemText primary="Description" />
                                     </ListItem>
                                     <ListItem>
-                                        <ListItemText primary="Members"/>
+                                        <ListItemText secondary={item.information} />
                                     </ListItem>
                                     <ListItem>
-                                        {this.state.members.map(member => 
-                                            <ListItemText secondary={member.first_name}/>
-                                        )}
+                                        <ListItemText primary="Members" />
                                     </ListItem>
+                                    {this.state.members.map(member =>
+                                        <ListItem>
+                                            <ListItemText secondary={member.first_name} />
+                                        </ListItem>
+                                    )}
+                                    {/* <ListItem>
+                                        <Button onClick={() => this.redirectToFriends()}>
+                                            add friend
+                                        </Button>
+                                    </ListItem> */}
                                 </List>
                             </Dialog>
                         </div>

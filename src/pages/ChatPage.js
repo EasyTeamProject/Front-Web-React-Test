@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import { Fab, TextField, List, ListItem, ListItemText, Button } from "@material-ui/core";
-import { AddIcon } from '@material-ui/icons/Add';
+import { TextField, List, ListItem, ListItemText, Button } from "@material-ui/core";
 import AppDrawer from '../components/AppDrawer';
 
 const styles = {
   chatWindow: {
-    backgroundColor: 'rgba(255, 255, 255, 0.85)',
-    margin: '0 auto',
-    marginTop: '20vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'left',
-    flexDirection: 'column',
-    width: '400px',
-    height: '600px',
+  backgroundColor: 'rgba(255, 255, 255, 0.85)',
+  margin: '0 auto',
+  marginTop: '20vh',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'left',
+  flexDirection: 'column',
+  width: '400px',
+  height: '600px',
   },
   messages: {
     overflow: 'auto',
@@ -64,7 +63,6 @@ class ChatPage extends Component {
 
   getMessages = () => {
     const { currentEventId } = this.props;
-    console.log(currentEventId);
     var messagesDB = firebase
       .database()
       .ref("chat/")

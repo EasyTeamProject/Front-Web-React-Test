@@ -31,8 +31,7 @@ export default function AppDrawer() {
   const classes = useStyles();
 
   function logOut(){
-    console.log(localStorage.getItem('token'))
-    localStorage.removeItem('token');
+    localStorage.clear();
   }
 
   return (
@@ -66,6 +65,11 @@ export default function AppDrawer() {
       </List>
       <Divider />
       <List>
+        <Link to='/termofuses'>
+          <ListItem>
+            Term of Uses
+          </ListItem>
+        </Link>
         <Link to="/">
           <ListItem button key="Logout">
             <ListItemText primary="Log out" onClick={() => logOut()}/>
