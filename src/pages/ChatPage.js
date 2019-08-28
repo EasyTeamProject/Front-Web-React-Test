@@ -17,6 +17,7 @@ const styles = {
   },
   messages: {
     overflow: 'auto',
+    width: '90%'
   },
   chatInput: {
     width: '90%',
@@ -47,6 +48,7 @@ class ChatPage extends Component {
       this.writeMessageToDB(this.state.text)
       this.setState({ text: "" })
     }
+    this.bottomSpan.scrollIntoView({ behavior: "smooth" })
   }
 
   writeMessageToDB = message => {

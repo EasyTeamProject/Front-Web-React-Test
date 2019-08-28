@@ -35,7 +35,8 @@ export class CustomAppBar extends Component {
     }
 
     handleClick(){
-        window.location.reload();
+        if(window.location == "http://localhost:3001/homepage")
+            window.location.reload();
     }
 
     render() {
